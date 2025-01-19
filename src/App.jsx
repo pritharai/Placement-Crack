@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Dashboard from './components/Dashboard';
-import QuestionBank from './components/QuestionBank';
-import MockTests from './components/MockTests';
-// import Leaderboard from './components/Leaderboard';
-// import Profile from './components/Profile';
+import Dashboard from './pages/Dashboard';
+import QuestionBank from './pages/QuestionBank';
+import QuestionSolver from './components/QuestionSolver'
+// import MockTests from './pages/MockTests';
+// import LeaderBoard from './pages/LeaderBoard';
+import UserProfile from './pages/UserProfile';
 import Login from './components/auth/Login';
+import {AdminAuth} from './components/auth/AdminAuth';
+import {Logout} from './components/auth/Logout';
 import Register from './components/auth/Register';
 
 function App() {
@@ -17,11 +20,16 @@ function App() {
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/questions" element={<QuestionBank />} />
-            <Route path="/mock-tests" element={<MockTests />} />
-            {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
-            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/questions" element={<QuestionBank />} >
+            <Route path="/:id" element={<QuestionSolver />} />
+            </Route>
+         
+            {/* <Route path="/mock-tests" element={<MockTests />} /> */}
+            {/* <Route path="/leaderboard" element={<LeaderBoard />} /> */}
+            <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/adminauth" element={<AdminAuth />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
           </Routes>
         </main>

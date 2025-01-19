@@ -50,13 +50,13 @@ function Navbar() {
                   Login
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/register"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Signup
                 </Link>
                 <Link
-                  to="/admin"
+                  to="/adminauth"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Admin
@@ -65,7 +65,7 @@ function Navbar() {
             ) : (
               <>
                 <Link
-                  to="/profile"
+                  to="/userprofile"
                   className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                 >
                   <User className="h-5 w-5" />

@@ -1,5 +1,6 @@
 import axios from 'axios'
 const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);
 
 
 const registerUser = async (formData) => {
@@ -15,7 +16,7 @@ const registerUser = async (formData) => {
     return response.data;
   } catch (error) {
     console.error('Error registering user:', error);
-    throw new Error('Failed to register user. Please try again.');
+    throw new Error('Failed to register user. Please try again.'); 
   }
 };
 
@@ -90,10 +91,46 @@ const verifyOtp = async (data) => {
   }
 };
 
+const getCurrentUser = async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    
+    // Check if token exists
+    if (!token) {
+      throw  new Error('No access token found');
+    }
+    
+    // Make the API request with authorization header
+    const response = await axios.get(`${apiUrl}/api/v1/user/userdetail`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  console.log('Current user data:', response.data);
+  return response.data;
+} catch (error) {
+  // Improved error handling
+  console.error('Error fetching current user data:', error.response?.data || error.message);
+  // throw error; // Optional: rethrow the error if you need to handle it elsewhere
+}
+};
+const updateUserAvatar = async (data)=>{
+  try {
+    console.log("cover data",data);
+    const token = localStorage.getItem('accessToken');
+      const response = await axios.patch(`${apiUrl}/api/v1/user/update-avatar` , data ,{ headers: { Authorization: `Bearer ${token}`}});  
+      // console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching updateUserAvatar data:', error);
+  }
+}
 
 export {
   registerUser,
+  getCurrentUser,
   loginUser,
+  updateUserAvatar,
   logoutUser,
   refreshAccessToken,
   verifyOtp
