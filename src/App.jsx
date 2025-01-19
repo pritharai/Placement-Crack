@@ -9,6 +9,7 @@ import MockTests from './components/MockTests';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import AdminLogin from './components/admin/auth/login';
+import AdminDashboard from './components/admin/adminDashboard';
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            
+
           </Routes>
         </main>
       </div>
