@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, Layout, Menu, TestTube2, Trophy, User } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice.js";
+// import { AdminLogin } from "./admin/auth/login.jsx"
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user) || false;
@@ -50,7 +51,7 @@ function Navbar() {
                   Login
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/register"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Signup

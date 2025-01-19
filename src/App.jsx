@@ -8,6 +8,7 @@ import MockTests from './components/MockTests';
 // import Profile from './components/Profile';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import AdminLogin from './components/admin/auth/login';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/admin" element={<AdminLogin />} />
           </Routes>
         </main>
       </div>
