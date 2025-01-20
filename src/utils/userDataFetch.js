@@ -4,14 +4,10 @@ console.log(apiUrl);
 
 
 const registerUser = async (formData) => {
-  console.log("data post", formData);
+  console.log("register data", formData);
 
   try {
-    const response = await axios.post(`${apiUrl}/api/v1/user/signup`, formData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(`${apiUrl}/api/v1/user/register`, formData);
     // console.log(response.data);
     return response.data;
   } catch (error) {
@@ -53,7 +49,7 @@ const logoutUser = async () => {
     // console.log(document.cookie.includes('accessToken'))
     // console.log(token)
     // console.log(formData)
-    const response = await axios.post(`${apiUrl}/api/v1/user/logout`, { token }, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.post(`${apiUrl}/api/v1/user/logout`, { token }, { headers: { Authorization: Bearer `${token}` } });
     // console.log(response.data);
     return response.data;
   } catch (error) {
@@ -66,7 +62,7 @@ const refreshAccessToken = async () => {
     const token = localStorage.getItem('refreshToken');
     // console.log(token)
     // console.log(formData)
-    const response = await axios.post(`${apiUrl}/api/v1/user/refreshtoken`, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.post(`${apiUrl}/api/v1/user/refreshtoken`, { headers: { Authorization: Bearer `${token}` } });
     // console.log(response.data);
     return response.data;
   } catch (error) {
@@ -103,7 +99,7 @@ const getCurrentUser = async () => {
     // Make the API request with authorization header
     const response = await axios.get(`${apiUrl}/api/v1/user/userdetail`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: Bearer `${token}`
       }
     });
   console.log('Current user data:', response.data);
@@ -118,7 +114,7 @@ const updateUserAvatar = async (data)=>{
   try {
     console.log("cover data",data);
     const token = localStorage.getItem('accessToken');
-      const response = await axios.patch(`${apiUrl}/api/v1/user/update-avatar` , data ,{ headers: { Authorization: `Bearer ${token}`}});  
+      const response = await axios.patch(`${apiUrl}/api/v1/user/update-avatar` , data ,{ headers: { Authorization: Bearer` ${token}`}});  
       // console.log(response.data);
       return response.data;
     } catch (error) {

@@ -35,7 +35,7 @@ function Login() {
 
     try {
       const userdata = await loginUser(data);
-      console.log("userlog data",userdata);
+      console.log("userlog data", userdata);
 
       if (userdata) {
         localStorage.setItem('accessToken', userdata?.data?.user?.accesstoken);

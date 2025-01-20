@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/questions" element={<QuestionBank />} >
-            <Route path="/:id" element={<QuestionSolver />} />
+            <Route path=":id" element={<QuestionSolver />} />
             </Route>
          
             {/* <Route path="/mock-tests" element={<MockTests />} /> */}
