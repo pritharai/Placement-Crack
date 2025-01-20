@@ -31,21 +31,21 @@ function Register() {
       const userData = await registerUser(data);
 
       if (userData) {
-        const email = data.email;
-        const obj = { email };
-        dispatch(VerifyEmail(obj));
-        navigate("/verifyotp");
+        // const email = data.email;
+        // const obj = { email };
+        // dispatch(VerifyEmail(obj));
+        // navigate("/verifyotp");
 
-        // const user = userData.data;
-        // // const obj = { user };
-        // dispatch(login(obj));
+        const user = userData.data;
+        const obj = { user };
+        dispatch(login(obj));
 
-        // toast.success('Signup successful! Redirecting to login...');
+        toast.success('Signup successful! Redirecting to login...');
 
-        //   setTimeout(() => {
-        //     setLoading(false);
-        //     navigate('/login');
-        //   }, 1500);
+          setTimeout(() => {
+            setLoading(false);
+            navigate('/login');
+          }, 1500);
       }
     } catch (error) {
       const errorMessage =
@@ -71,7 +71,7 @@ function Register() {
        
       <Inputfield
     placeholder="Enter FullName"
-    name="fullname"
+    name="name"
     type="text"
     register={register}
     required
@@ -79,7 +79,7 @@ function Register() {
   />  
           <Inputfield
             placeholder="Enter your Email"
-            name="Email"
+            name="email"
             type="text"
             label="Email:"
             register={register}

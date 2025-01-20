@@ -4,14 +4,10 @@ console.log(apiUrl);
 
 
 const registerUser = async (formData) => {
-  console.log("data post", formData);
+  console.log("register data", formData);
 
   try {
-    const response = await axios.post(`${apiUrl}/api/v1/user/signup`, formData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(`${apiUrl}/api/v1/user/signup`, formData);
     // console.log(response.data);
     return response.data;
   } catch (error) {

@@ -20,9 +20,9 @@ function App() {
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/questions" element={<QuestionBank />} >
-            <Route path="/:id" element={<QuestionSolver />} />
-            </Route>
+            <Route path="/questions" element={<QuestionBank />}/ >
+            <Route path="/questionsolver" element={<QuestionSolver />} />
+          
          
             {/* <Route path="/mock-tests" element={<MockTests />} /> */}
             {/* <Route path="/leaderboard" element={<LeaderBoard />} /> */}
@@ -30,7 +30,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/adminauth" element={<AdminAuth />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/signup" element={<Register />} />
           </Routes>
         </main>
       </div>
