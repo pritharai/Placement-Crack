@@ -48,7 +48,7 @@ function QuestionBank() {
   ];
 
   const handleSolveClick = (question) => {
-    useParams(question.id)
+    // useParams(question.id)
     setSelectedQuestion(question);
   };
 

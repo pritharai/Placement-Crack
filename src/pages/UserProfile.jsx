@@ -1,48 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Award, Target, Clock, BookOpen, Brain } from 'lucide-react';
+import { BarChart, Award, Target, Clock, BookOpen, Brain, User, Pencil } from 'lucide-react';
 import StatesCard from '../components/StatesCard';
 import ProgressBar from '../components/ProgressBar';
-import { getCurrentUser, updateUserAvatar, } from '../utils/userDataFetch';  // Import the utility function
+import { getCurrentUser, updateUserAvatar } from '../utils/userDataFetch'; // Import utility functions
+import { useSelector } from 'react-redux';
 
 function UserProfile({ userId }) {
-  const [profileData, setProfileData] = useState(null);
   const [userStats, setUserStats] = useState(null);
   const [recentActivities, setRecentActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.auth.user);
 
-  const handleSubmitAvatar = async () => {
-    const input = document.querySelector("#avatar");
-    const file = input.files[0];
+  const handleSubmitAvatar = async (e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append('avatar', file);
 
     try {
       const data = await updateUserAvatar(formData);
-      if (data) setReload((prev) => prev + 1);
-      ShowToast("update","avatar")
+      if (data) {
+        setUserStats((prev) => ({
+          ...prev,
+          avatar: data.avatar, // Update avatar in state
+        }));
+        console.log('Avatar updated successfully');
+      }
     } catch (error) {
-      console.error("Error uploading avatar:", error);
+      console.error('Error uploading avatar:', error);
     }
-  }
-  const openAvatarUpload = (e) => {
-    e.preventDefault();
-    document.querySelector("#avatar").click();
-  }
-  // Fetch user data from backend using userId
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { data, success } = await getCurrentUser(); // Destructure to get the actual user data
-        console.log(data);
-        
+        const { data, success } = await getCurrentUser();
         if (success) {
-          // Successfully received user data
           setUserStats({
             name: data.name,
             email: data.email,
-            avatar: data.avatar, // Add avatar to state
+            avatar: data.avatar,
             joinedDate: new Date(data.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -54,24 +52,21 @@ function UserProfile({ userId }) {
               averageScore: data.progress.completedQuestions
                 ? Math.round((data.progress.correctAnswers / data.progress.completedQuestions) * 100)
                 : 0,
-              rank: 42, // Placeholder for rank; implement your own logic if needed
-              streak: 7, // Placeholder for streak; implement your own logic if needed
+              rank: 42, // Placeholder
+              streak: 7, // Placeholder
             },
           });
+console.log(userStats.avatar);
 
-          // Map recent activities from the user data (currently empty array, so no activities)
-          const activities = data.testSessions.map((session) => {
-            const test = {
+          setRecentActivities(
+            data.testSessions.map((session) => ({
               type: session.status === 'completed' ? 'Mock Test' : 'Practice',
               title: `Test #${session.testId}`,
-              score: 'N/A', // You can replace this with real score data if available
+              score: 'N/A', // Placeholder
               date: new Date(session.startTime).toLocaleDateString('en-US'),
-            };
-            return test;
-          });
-          setRecentActivities(activities);
+            }))
+          );
         } else {
-          // Handle case where the response is unsuccessful
           console.error('Failed to fetch user data');
         }
       } catch (error) {
@@ -91,29 +86,33 @@ function UserProfile({ userId }) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Profile Header */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-      {isOwner && (
-    <>
-      <div
-        onClick={openAvatarUpload}
-        className="bg-gray-600 p-1 rounded-xl absolute bottom-5 right-3 text-2xl cursor-pointer"
-      >
-        <MdEdit />
-      </div>
-      <form hidden>
-        <input
-          type="file"
-          id="avatar"
-          accept="image/*"
-          onChange={handleSubmitAvatar}
-        />
-      </form>
-    </>
-  )}
         <div className="flex items-center space-x-4">
-          <div className="h-20 w-20 bg-indigo-600 rounded-full flex items-center justify-center">
-            <span className="text-2xl text-white font-bold">
-              {userStats.name.split(' ').map(n => n[0]).join('')}
-            </span>
+          <div className="relative group">
+            <label htmlFor="avatar" className="relative block cursor-pointer">
+              <div className="h-20 w-20 rounded-full overflow-hidden bg-indigo-800">
+                {userStats.avatar ? (
+                  <img
+                    src={userStats.avatar}
+                    alt={userStats.name }
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-indigo-600 flex items-center justify-center">
+                    <User className="h-10 w-10 text-white" />
+                  </div>
+                )}
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <Pencil className="h-6 w-6 text-white" />
+              </div>
+            </label>
+            <input
+              type="file"
+              id="avatar"
+              accept="image/*"
+              onChange={handleSubmitAvatar}
+              className="hidden"
+            />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{userStats.name}</h1>
@@ -128,7 +127,7 @@ function UserProfile({ userId }) {
         <StatesCard
           icon={<Target className="h-6 w-6 text-indigo-600" />}
           title="Accuracy Rate"
-          value={`${userStats.stats.completedQuestions > 0 ? Math.round((userStats.stats.correctAnswers / userStats.stats.completedQuestions) * 100) : 0}%`}
+          value={`${userStats.stats.averageScore}%`}
         />
         <StatesCard
           icon={<Award className="h-6 w-6 text-indigo-600" />}
@@ -142,6 +141,7 @@ function UserProfile({ userId }) {
         />
       </div>
 
+      {/* Progress and Recent Activities */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Progress Section */}
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -151,13 +151,13 @@ function UserProfile({ userId }) {
               icon={<BookOpen className="h-5 w-5" />}
               label="Questions Completed"
               value={userStats.stats.completedQuestions}
-              total={200} // You can change the total value if needed
+              total={200}
             />
             <ProgressBar
               icon={<Brain className="h-5 w-5" />}
               label="Tests Completed"
               value={userStats.stats.testsTaken}
-              total={20} // You can change the total value if needed
+              total={20}
             />
             <ProgressBar
               icon={<Target className="h-5 w-5" />}

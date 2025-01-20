@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Inputfield from '../Inputfield';
 import { useForm } from "react-hook-form";
 import Button from '../Button';
-import { loginUser } from '../../utils/userDataFetch';
+import { loginUser } from '../../utils/userDataFetch.js';
 import { login } from '../../store/authSlice.js';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
