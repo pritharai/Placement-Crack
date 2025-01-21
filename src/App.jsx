@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import QuestionBank from './pages/QuestionBank';
 import QuestionSolver from './components/QuestionSolver'
-// import MockTests from './pages/MockTests';
+import MockTests from './pages/MockTests';
 // import LeaderBoard from './pages/LeaderBoard';
 import UserProfile from './pages/UserProfile';
 import Login from './components/auth/Login';
@@ -28,13 +28,13 @@ function App() {
             <Route path="/questionsolver" element={<QuestionSolver />} />
           
          
-            {/* <Route path="/mock-tests" element={<MockTests />} /> */}
+            <Route path="/mock-tests" element={<MockTests />} />
             {/* <Route path="/leaderboard" element={<LeaderBoard />} /> */}
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/adminauth" element={<AdminAuth />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/signup" element={<Register />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </main>
       </div>
