@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate , useLocation} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, Layout, Menu, TestTube2, Trophy, User } from "lucide-react";
 import { useSelector, useDispatch} from "react-redux";
 import { logout } from "../store/authSlice.js";
@@ -10,7 +10,7 @@ function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -63,7 +63,6 @@ function Navbar() {
               </>
               )
             ) : (
-              isAdminPage && (
               <>
                 <Link
                   to="/userprofile"
@@ -80,7 +79,7 @@ function Navbar() {
                   Logout
                 </button>
               </>
-              )
+              
             )}
           </div>
 

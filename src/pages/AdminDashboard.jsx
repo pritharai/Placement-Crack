@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [faculties, setFaculties] = useState([]);
     const [mockTests, setMockTests] = useState([]);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
