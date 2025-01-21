@@ -44,7 +44,7 @@ function Login() {
 
         dispatch(login({ user }));
         if(userdata?.data?.user?.extrauserdet?.role == "admin"){
-          navigate('/admin');
+          navigate('/admin-dashboard');
         }else{
           navigate('/');
 

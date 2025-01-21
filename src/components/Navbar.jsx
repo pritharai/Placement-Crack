@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate , useLocation} from "react-router-dom";
 import { BookOpen, Layout, Menu, TestTube2, Trophy, User } from "lucide-react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { logout } from "../store/authSlice.js";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user) || false;
+  const admin = useSelector((state) => state.auth.admin) || false;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,6 +20,8 @@ function Navbar() {
     dispatch(logout());
     navigate("/logout");
   };
+
+  const isAdminPage = location.pathname === "/admin-dashboard"; 
 
   return (
     <nav className="bg-white shadow-lg">
@@ -41,7 +45,8 @@ function Navbar() {
 
           {/* User Authentication Section */}
           <div className="hidden md:flex items-center space-x-4">
-            {!user ? (
+            {!user && !admin ? (
+              !isAdminPage && (
               <>
                 <Link
                   to="/login"
@@ -55,14 +60,10 @@ function Navbar() {
                 >
                   Signup
                 </Link>
-                <Link
-                  to="/adminauth"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                  Admin
-                </Link>
               </>
+              )
             ) : (
+              isAdminPage && (
               <>
                 <Link
                   to="/userprofile"
@@ -71,6 +72,7 @@ function Navbar() {
                   <User className="h-5 w-5" />
                   <span className="ml-2">Profile</span>
                 </Link>
+                
                 <button
                   onClick={handleLogout}
                   className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
@@ -78,6 +80,7 @@ function Navbar() {
                   Logout
                 </button>
               </>
+              )
             )}
           </div>
 
