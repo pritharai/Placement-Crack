@@ -12,6 +12,7 @@ import {AdminAuth} from './components/auth/AdminAuth';
 import {Logout} from './components/auth/Logout';
 import Register from './components/auth/Register';
 import AdminPage from './pages/AdminPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/upload-test" element={<AdminPage />} />
             {/* <Route path="/leaderboard" element={<LeaderBoard />} /> */}
             <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/admin-dashboard" element={< AdminDashboard/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/adminauth" element={<AdminAuth />} />
             <Route path="/logout" element={<Logout />} />

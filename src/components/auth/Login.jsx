@@ -26,7 +26,7 @@ function Login() {
   useEffect(() => {}, [accessToken]);
 
   const handleclick = () => {
-    navigate('/signup');
+    navigate('/register');
   };
   const onSubmit = async (data, e) => {
     e.preventDefault();
