@@ -43,7 +43,13 @@ function Login() {
         const user = userdata.data.user.loggedinuser;
 
         dispatch(login({ user }));
-        navigate('/');
+        if(userdata?.data?.user?.extrauserdet?.role == "admin"){
+          navigate('/admin');
+        }else{
+          navigate('/');
+
+        }
+
       } else {
         setLoading(false);
         alert("Login failed. Please check your credentials.");
