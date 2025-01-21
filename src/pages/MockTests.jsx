@@ -1,53 +1,38 @@
 import React, { useState, useEffect } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import axios from "axios";
 
 const MockTestsPage = () => {
-  const [tests, setTests] = useState([
-    {
-      id: 1,
-      name: "JavaScript Basics",
-      problems: [
-        {
-          type: "mcq",
-          question: "What is the output of `typeof null`?",
-          options: ["object", "null", "undefined", "number"],
-          correctAnswer: "object",
-        },
-        {
-          type: "code",
-          question: "Write a function to reverse a string in JavaScript.",
-          starterCode: "// Write your code here\nfunction reverseString(str) {\n  \n}",
-          correctOutput: "olleH",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "React Fundamentals",
-      problems: [
-        {
-          type: "mcq",
-          question: "Which hook is used for state management in React?",
-          options: ["useState", "useEffect", "useContext", "useReducer"],
-          correctAnswer: "useState",
-        },
-        {
-          type: "code",
-          question: "Write a function component that displays 'Hello, World!'",
-          starterCode: "// Write your code here\nfunction HelloWorld() {\n  \n}",
-          correctOutput: "<div>Hello, World!</div>",
-        },
-      ],
-    },
-  ]);
-
+  const [tests, setTests] = useState([]);
   const [selectedTest, setSelectedTest] = useState(null);
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [timer, setTimer] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
 
+  // Fetch mock tests dynamically
+  useEffect(() => {
+    const fetchTests = async () => {
+      try {
+        const response = await axios.get("/api/upload-test");
+        if (Array.isArray(response.data)) {
+          setTests(response.data);
+        } else {
+          console.error("Unexpected API response:", response.data);
+          setTests([]); // Fallback to an empty array
+        }
+      } catch (error) {
+        console.error("Failed to fetch tests:", error);
+        setTests([]); // Fallback in case of an error
+      }
+    };
+    
+
+    fetchTests();
+  }, []);
+
+  // Start timer when a test is selected
   useEffect(() => {
     if (selectedTest && timerInterval === null) {
       const interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
@@ -69,10 +54,12 @@ const MockTestsPage = () => {
   const handleSubmit = () => {
     clearInterval(timerInterval);
     setTimerInterval(null);
-    // Evaluate the test
+
+    // Evaluate the test (This is just a placeholder)
     console.log("User answers:", userAnswers);
     console.log("Total time taken:", formatTime(timer));
     alert("Test submitted! Time taken: " + formatTime(timer));
+
     resetTest();
   };
 
@@ -88,20 +75,22 @@ const MockTestsPage = () => {
       {!selectedTest ? (
         <div className="test-selection">
           <h1 className="text-2xl font-bold mb-4">Available Mock Tests</h1>
-          <ul className="space-y-3">
-            {tests.map((test) => (
-              <li key={test.id} className="p-4 border rounded shadow">
-                <h2 className="text-xl font-semibold">{test.name}</h2>
-                <button
-                  onClick={() => setSelectedTest(test)}
-                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-                >
-                  Start Test
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+          {Array.isArray(tests) && tests.length > 0 ? (
+  tests.map((test) => (
+    <li key={test.id} className="p-4 border rounded shadow">
+      <h2 className="text-xl font-semibold">{test.name}</h2>
+      <button
+        onClick={() => setSelectedTest(test)}
+        className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+      >
+        Start Test
+      </button>
+    </li>
+  ))
+) : (
+  <p>Loading tests...</p>
+)}
+</div>
       ) : (
         <div className="test-problems">
           <h2 className="text-2xl font-bold mb-2">{selectedTest.name}</h2>
